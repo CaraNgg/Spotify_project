@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Spotify Steal List</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Spotify Steal List</h1>
+  <p id="status">Loading Python… (first load takes a few seconds)</p>
+
+  <p><input id="nameA" placeholder="Person 1 name"> <input type="file" id="zipA" accept=".zip"></p>
+  <p><input id="nameB" placeholder="Person 2 name"> <input type="file" id="zipB" accept=".zip"></p>
+  <button id="go" disabled>Compare</button>
+
+  <h2 id="titleA"></h2><div id="outA"></div>
+  <h2 id="titleB"></h2><div id="outB"></div>
+
+  <script>
+    let pyodide;
+    const status = document.getElementById("status");
+
+    async function setup() {
+      pyodide = await loadPyodide();
+      await pyodide.loadPackage(["pandas", "tzdata"]);
+      const code = await (await fetch("analysis.py")).text();
+      pyodide.runPython(code);
+      status.textContent = "Ready! Upload both zips.";
+      document.getElementById("go").disabled = false;
+    }
+    setup();
+
+    document.getElementById("go").onclick = async () => {
+      const fileA = document.getElementById("zipA").files[0];
+      const fileB = document.getElementById("zipB").files[0];
+      if (!fileA || !fileB) { alert("Please upload both zips."); return; }
+
+      const nameA = document.getElementById("nameA").value || "Person 1";
+      const nameB = document.getElementById("nameB").value || "Person 2";
+
+      status.textContent = "Crunching your listening history…";
+      await new Promise(r => setTimeout(r, 0));   // lets the message show before the heavy work
+
+      pyodide.FS.writeFile("/a.zip", new Uint8Array(await fileA.arrayBuffer()));
+      pyodide.FS.writeFile("/b.zip", new Uint8Array(await fileB.arrayBuffer()));
+
+      const [htmlA, htmlB] = pyodide.globals.get("run")(nameA, nameB).toJs();
+
+      document.getElementById("titleA").textContent = `Songs ${nameA} should steal from ${nameB}`;
+      document.getElementById("outA").innerHTML = htmlA;
+      document.getElementById("titleB").textContent = `Songs ${nameB} should steal from ${nameA}`;
+      document.getElementById("outB").innerHTML = htmlB;
+      status.textContent = "Done! Nothing was uploaded anywhere — it all ran in your browser.";
+    };
+  </script>
+</body>
+</html>

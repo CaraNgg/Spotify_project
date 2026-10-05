@@ -1,0 +1,15 @@
+data/
+.venv/
+.idea/
+__pycache__/
+.ipynb_checkpoints/
+
+# Mac junk files
+.DS_Store
+
+# Safety net: never upload listening data, even if it's outside data/
+*.zip
+*.parquet
+
+# Secrets (if you ever use API keys)
+.env
