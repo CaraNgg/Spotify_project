@@ -2,10 +2,9 @@
 #tab with all shared songs
 #All: each person's top songs (plays/hours toggle)
 #Shared only: songs you both play, sorted by the person who played less, with plays for both
-from fontTools.ttLib.tables.B_A_S_E_ import table_B_A_S_E_
 
 import pandas as pd
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 def individual_song_report(both_clean, person_a, person_b):
     # real plays (>30 seconds)

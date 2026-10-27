@@ -1,0 +1,59 @@
+
+/*.hidden → a class (has a dot): applies to anything with class="hidden"*/
+.hidden {
+    display: none;
+}
+
+/*.layout → a class (has a dot): applies to your <div class="layout">*/
+.layout{
+    display: flex; /*puts the element’s direct children side by side in a row. Here, that’s the nav on the left, main on the right.*/
+}
+
+/*nav → no dot, so it’s an element rule: applies to every <nav> tag on the page, no class needed*/
+nav{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+/*making it look good now*/
+
+/*applies anywhere to the <body> tag*/
+body{
+    background: #121212; /*for black*/
+    color: white; /*text color*/
+    font-family: sans-serif;
+}
+
+/*applies to any <button> tag*/
+button{
+    background: #1e1e1e;
+    color: white;
+    border:none;
+    border-radius:8px;
+    padding: 10px 14px; /*padding: space inside the button, between the text and the edge. 10px 14px = 10 top and bottom, 14 left and right.*/
+    cursor: pointer; /*cursor: pointer: shows the hand cursor when you hover, so it feels clickable*/
+}
+
+/*when hovered, the button will show like a light grey*/
+button:hover{
+    background: #2a2a2a; /*:hover means “while the mouse is over it.” Small touches like this make a site feel polished.*/
+}
+
+/*when clicked, the button will show green*/
+button.active{
+    background: #1DB954;
+    color: black;
+    font-weight: bold;
+}
+
+/*for the table of lists and whatever*/
+.side-by-side{
+    display: flex; /*display: flex on the container puts the two columns side by side, just like your nav and main.*/
+    gap: 24px; /*adds space between the tables*/
+}
+
+.song-column{
+    flex: 1; /*flex: 1 on each column means “take an equal share of the space,” so both tables get the same width.*/
+}

@@ -102,8 +102,6 @@ def show_individual_artists_ranking(both_clean, person_a, person_b):
 
     return table_A, table_B
 
-
-
 #make a dataframe with the shared artists
 def show_shared_artists_ranking(both_clean, person_a, person_b):
     real_plays = both_clean[both_clean["counted"]]

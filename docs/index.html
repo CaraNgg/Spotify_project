@@ -1,57 +1,68 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Spotify Steal List</title>
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+    <meta charset="UTF-8">
+    <title>Spotify Compatibility</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script> <!-- add pyodide -->
 </head>
 <body>
-  <h1>Spotify Steal List</h1>
-  <p id="status">Loading Python… (first load takes a few seconds)</p>
+    <h1>Spotify Compability Shit</h1>
+    <p>Please have fun with my bullshit HAHAHAHAHA</p>
 
-  <p><input id="nameA" placeholder="Person 1 name"> <input type="file" id="zipA" accept=".zip"></p>
-  <p><input id="nameB" placeholder="Person 2 name"> <input type="file" id="zipB" accept=".zip"></p>
-  <button id="go" disabled>Compare</button>
+    <section id="upload">
+        <div>
+            <input type="text" id="nameA" placeholder="First persons name">
+            <input type="file" id="zipA" accept=".zip">
+        </div>
+        <div>
+            <input type="text" id="nameB" placeholder="Second persons name">
+            <input type="file" id="zipB" accept=".zip">
+        </div>
+        <button id="loadBtn">Compare</button>
+        <p id="status"></p>
+    </section>
 
-  <h2 id="titleA"></h2><div id="outA"></div>
-  <h2 id="titleB"></h2><div id="outB"></div>
+    <div class="layout">
+        <nav>
+            <button class="active" onclick="showTab('overview', this)">overview</button>
+            <button onclick="showTab('artists', this)">Artists Tab</button>
+            <button onclick="showTab('songs', this)">Songs tab</button>
+            <button onclick="showTab('blendstats', this)">blend stats tab</button>
+            <button onclick="showTab('blendfunny', this)">blend funny tab</button>
+            <button onclick="showTab('habits', this)">habits tab</button>
+        </nav>
+        <main>
+            <section id = "overview" class="tab">
+                <h2>Overview tab</h2>
+                <p>for the overview of the important stats</p>
+            </section>
+            <section id = "artists" class="tab hidden">
+                <h2>Artists tab</h2>
+                <p>for artists stats</p>
+            </section>
 
-  <script>
-    let pyodide;
-    const status = document.getElementById("status");
+            <section id = "songs" class="tab hidden">
+                <h2>Songs tab</h2>
+                <p>for song stats and lists</p>
+                <div id="songsOutput"></div>
+            </section>
 
-    async function setup() {
-      pyodide = await loadPyodide();
-      await pyodide.loadPackage(["pandas", "tzdata"]);
-      const code = await (await fetch("analysis.py")).text();
-      pyodide.runPython(code);
-      status.textContent = "Ready! Upload both zips.";
-      document.getElementById("go").disabled = false;
-    }
-    setup();
+            <section id = "blendstats" class="tab hidden">
+                <h2>Blend stats tab</h2>
+                <p>for blend stats</p>
+            </section>
+            <section id = "blendfunny" class="tab hidden">
+                <h2>Blend funny tab</h2>
+                <p>yea for funny</p>
+            </section>
+            <section id = "habits" class="tab hidden">
+                <h2>Habits tab</h2>
+                <p>for habits stats</p>
+            </section>
+        </main>
+    </div>
 
-    document.getElementById("go").onclick = async () => {
-      const fileA = document.getElementById("zipA").files[0];
-      const fileB = document.getElementById("zipB").files[0];
-      if (!fileA || !fileB) { alert("Please upload both zips."); return; }
-
-      const nameA = document.getElementById("nameA").value || "Person 1";
-      const nameB = document.getElementById("nameB").value || "Person 2";
-
-      status.textContent = "Crunching your listening history…";
-      await new Promise(r => setTimeout(r, 0));   // lets the message show before the heavy work
-
-      pyodide.FS.writeFile("/a.zip", new Uint8Array(await fileA.arrayBuffer()));
-      pyodide.FS.writeFile("/b.zip", new Uint8Array(await fileB.arrayBuffer()));
-
-      const [htmlA, htmlB] = pyodide.globals.get("run")(nameA, nameB).toJs();
-
-      document.getElementById("titleA").textContent = `Songs ${nameA} should steal from ${nameB}`;
-      document.getElementById("outA").innerHTML = htmlA;
-      document.getElementById("titleB").textContent = `Songs ${nameB} should steal from ${nameA}`;
-      document.getElementById("outB").innerHTML = htmlB;
-      status.textContent = "Done! Nothing was uploaded anywhere — it all ran in your browser.";
-    };
-  </script>
+    <script src="app.js"></script>
 </body>
 </html>
