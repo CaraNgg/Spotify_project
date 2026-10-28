@@ -16,7 +16,7 @@
 
 
 import pandas as pd
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 #makes a report of first date listened, first song listened, top 5 songs listened (for each person)
 def artist_report(both_clean, artist_name, person_a, person_b):

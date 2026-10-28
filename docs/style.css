@@ -4,16 +4,27 @@
     display: none;
 }
 
-/*.layout → a class (has a dot): applies to your <div class="layout">*/
-.layout{
-    display: flex; /*puts the element’s direct children side by side in a row. Here, that’s the nav on the left, main on the right.*/
+.layout {
+    display: flex;
+    min-height: 100vh;
 }
 
-/*nav → no dot, so it’s an element rule: applies to every <nav> tag on the page, no class needed*/
-nav{
+nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    width: 240px;
+    padding: 24px 16px;
+    background: #0a0a0a;
+    border-right: 1px solid #222;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+main {
+    flex: 1;
+    padding: 40px 48px;
 }
 
 
@@ -56,4 +67,53 @@ button.active{
 
 .song-column{
     flex: 1; /*flex: 1 on each column means “take an equal share of the space,” so both tables get the same width.*/
+}
+
+/*box with rounded corners for each item with class "card"*/
+.card{
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/*erm like a card for like other smaller boxes XD*/
+.card2{
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/*horizontal line*/
+hr {
+    border: none;
+    border-top: 1px solid #2a2a2a;
+    margin: 16px 0;
+}
+
+/*make da table look better*/
+/* ==================== TABLES ==================== */
+table {
+    width: 100%; /*table stretches across whole card*/
+    border-collapse: collapse; /*by default, every cell has its own separate border, which looks doubled. This merges them into single clean lines.*/
+}
+
+th { /*for the headers, which will be in grey colour, all uppercase*/
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px; /*adds a lil spacing between letters*/
+    color: #888;
+    padding: 10px 12px;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+td { /*for the cells*/
+    padding: 12px; /*vertical space separating rows*/
+    border-bottom: 1px solid #3a3a3a; /*adds a lil border to the bottom*/
+}
+
+tr:hover td { /*when hover, it lights up a lil*/
+    background: #2a2a2a;
 }

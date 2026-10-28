@@ -7,24 +7,24 @@
     <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script> <!-- add pyodide -->
 </head>
 <body>
-    <h1>Spotify Compability Shit</h1>
-    <p>Please have fun with my bullshit HAHAHAHAHA</p>
-
-    <section id="upload">
-        <div>
-            <input type="text" id="nameA" placeholder="First persons name">
-            <input type="file" id="zipA" accept=".zip">
-        </div>
-        <div>
-            <input type="text" id="nameB" placeholder="Second persons name">
-            <input type="file" id="zipB" accept=".zip">
-        </div>
-        <button id="loadBtn">Compare</button>
-        <p id="status"></p>
-    </section>
-
     <div class="layout">
         <nav>
+            <h1>Spotify Compability Shit</h1>
+            <p>Please have fun with my bullshit HAHAHAHAHA</p>
+
+            <section id="upload" class="card">
+                <div>
+                    <input type="text" id="nameA" placeholder="First persons name">
+                    <input type="file" id="zipA" accept=".zip">
+                </div>
+                <div>
+                    <input type="text" id="nameB" placeholder="Second persons name">
+                    <input type="file" id="zipB" accept=".zip">
+                </div>
+                <button id="loadBtn">Compare</button>
+                <p id="status"></p>
+            </section>
+
             <button class="active" onclick="showTab('overview', this)">overview</button>
             <button onclick="showTab('artists', this)">Artists Tab</button>
             <button onclick="showTab('songs', this)">Songs tab</button>
@@ -33,33 +33,104 @@
             <button onclick="showTab('habits', this)">habits tab</button>
         </nav>
         <main>
+            <!-- OVERVIEW SECTION ======================================================================================================-->
             <section id = "overview" class="tab">
                 <h2>Overview tab</h2>
                 <p>for the overview of the important stats</p>
             </section>
-            <section id = "artists" class="tab hidden">
-                <h2>Artists tab</h2>
-                <p>for artists stats</p>
-            </section>
+            <!-- END OVERVIEW SECTION ======================================================================================================-->
 
+            <!-- ARTIST SECTION ============================================================ -->
+            <section id="artists" class="tab hidden">
+                <h2>Artists tab</h2>
+
+                <!-- search -->
+                <div class="card">
+                    <input type="text" id="artistName" list="artistList" placeholder="Search for an artist...">
+                    <datalist id="artistList"></datalist>
+                    <button id="searchArtistButton">Search</button>
+                    <div id="artistReportOutput"></div>
+                </div>
+
+                <!-- rankings -->
+                <div class="card">
+                    <select id="artistsWindow">
+                        <option value="all">All Time</option>
+                        <option value="12m">Last 12 Months</option>
+                        <option value="6m">Last 6 Months</option>
+                    </select>
+
+                    <button class="active" onclick="showArtistView('indivArtists', this)">Individual Artist Rankings</button>
+                    <button onclick="showArtistView('sharedArtists', this)">Shared Artist Rankings</button>
+
+                    <div id="indivArtists" class="artist-view">
+                        <h3>Top Artists Individually</h3>
+                        <p>Ranked by total hours on the artist</p>
+                        <hr>
+                        <div id="artistsOutput"></div>
+                    </div>
+
+                    <div id="sharedArtists" class="artist-view hidden">
+                        <h3>Top Artists Both Users Share</h3>
+                        <p>Ranked by whoever listened less, so both croskis need to listen</p>
+                        <hr>
+                        <div id="sharedArtistsOutput"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- END ARTIST SECTION ============================================================ -->
+
+            <!-- SONGS SECTION ======================================================================================================-->
             <section id = "songs" class="tab hidden">
                 <h2>Songs tab</h2>
-                <p>for song stats and lists</p>
-                <div id="songsOutput"></div>
-            </section>
+                <div class="card">
+                    <select id="songsWindow">
+                        <option value="all">All Time</option>
+                        <option value="12m">Last 12 Months</option>
+                        <option value="6m">Last 6 Months</option>
+                    </select>
 
+                    <button class="active" onclick="showSongView('indivSongs', this)">Individual Song Rankings</button> <!-- default song tab view-->
+                    <button onclick="showSongView('sharedSongs', this)">Shared Song Rankings</button> <!-- shows the shared tab when clicked -->
+
+                    <!-- div to group up the shit the indivSongs tab-->
+                    <div id="indivSongs" class="song-view"> <!-- has class song-view in js-->
+                        <h3>Top Individual Song Rankings by Plays</h3>
+                        <hr>
+                        <div id="songsOutput"></div> <!-- output the songs table-->
+                    </div>
+
+                    <div id="sharedSongs" class="song-view hidden"> <!-- has class song-view, and hidden in js -->
+                        <h3>Top Shared Song Rankings by Plays</h3>
+                        <p>Ranked by your top plays for songs, um idk</p>
+                        <hr>
+                        <div id="sharedSongsOutput"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- END SONGS SECTION ======================================================================================================-->
+
+            <!-- BLEND STATS SECTION ======================================================================================================-->
             <section id = "blendstats" class="tab hidden">
                 <h2>Blend stats tab</h2>
                 <p>for blend stats</p>
             </section>
+            <!-- END BLEND STATS SECTION ======================================================================================================-->
+
+            <!-- BLEND FUNNY SECTION ======================================================================================================-->
             <section id = "blendfunny" class="tab hidden">
                 <h2>Blend funny tab</h2>
                 <p>yea for funny</p>
             </section>
+            <!-- END BLEND FUNNY SECTION ======================================================================================================-->
+
+            <!-- HABITS SECTION ======================================================================================================-->
             <section id = "habits" class="tab hidden">
                 <h2>Habits tab</h2>
                 <p>for habits stats</p>
             </section>
+            <!-- END HABITS SECTION ======================================================================================================-->
+
         </main>
     </div>
 
