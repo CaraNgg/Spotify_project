@@ -117,3 +117,42 @@ td { /*for the cells*/
 tr:hover td { /*when hover, it lights up a lil*/
     background: #2a2a2a;
 }
+
+/* ==================== GAME CARDS ==================== */
+.reveal-card {
+    flex: 1;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.reveal-card:hover {
+    border-color: #1DB954;
+}
+
+/* answer starts hidden */
+.answer {
+    display: none;
+}
+
+/* once revealed: show the answer, hide the hint */
+.reveal-card.revealed .answer {
+    display: block;
+}
+.reveal-card.revealed .hint {
+    display: none;
+}
+
+.hint {
+    color: #888;
+}
+.answer-main {
+    font-size: 15px;
+    font-weight: bold;
+    color: #1DB954;
+}
+.answer-detail {
+    color: #888;
+}

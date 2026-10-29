@@ -38,7 +38,7 @@ async function setup(){
     await pyodide.loadPackage(["pandas", "tzdata"]); //load the python libraries needed (pandas and tzdata(toronto timezone)
 
     // copy my python files into pyodide so python can import them
-    const files = ["spotify_loading.py", "songs_tab.py", "artists_tab.py", "main.py"];
+    const files = ["spotify_loading.py", "songs_tab.py", "artists_tab.py", "main.py", "blend_funny_tab.py"];
     for (const file of files) {
         const response = await fetch(file);          // download the file from my site
         const code = await response.text();          // get its contents as text
@@ -82,6 +82,10 @@ async function compare() {
     updateArtists();
 
     fillArtistList();
+
+    //for blend funny
+    const game = JSON.parse(main.get_game(nameA, nameB));
+    showGame(game);
 
     //====================================================================================================
 
@@ -261,6 +265,40 @@ function showArtistReport(report) {
     }
 
     document.getElementById("artistReportOutput").innerHTML = html;
+}
+
+//idek for the game to show
+function showGame(questions) {
+    let html = "";
+
+    questions.forEach(q => {
+        html += `<h3>${q.title}</h3>`;
+
+        // optional info card (always visible, not clickable)
+        if (q.info) {
+            html += `<div class="info-card">
+                <p class="answer-main">${q.info.main}</p>
+                <p class="answer-detail">${q.info.detail}</p>
+            </div>`;
+        }
+
+        html += '<div class="side-by-side">';
+
+        q.cards.forEach(card => {
+            html += `<div class="reveal-card" onclick="this.classList.add('revealed')">
+                <p>${card.prompt}</p>
+                <p class="hint">Click to reveal</p>
+                <div class="answer">
+                    <p class="answer-main">${card.answer}</p>
+                    <p class="answer-detail">${card.detail}</p>
+                </div>
+            </div>`;
+        });
+
+        html += "</div>";
+    });
+
+    document.getElementById("gameOutput").innerHTML = html;
 }
 
 document.getElementById("loadBtn").addEventListener("click", compare);
